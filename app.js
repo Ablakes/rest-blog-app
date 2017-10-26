@@ -1,7 +1,8 @@
 var express    = require("express"),
     app        = express(),
     mongoose   = require("mongoose"),
-    bodyParser = require("body-parser");
+    bodyParser = require("body-parser"),
+    moment     = require('moment');
 
 mongoose.connect("mongodb://localhost/restful_blog_app", {useMongoClient: true});  //This creates that db if there isn't one already named that
 app.use(express.static("public")); //Allows us to use stylesheet from "public" directory
@@ -13,7 +14,7 @@ var blogSchema = new mongoose.Schema({
     "title": String,
     "image": String,
     "body": String,
-    "created": {type: Date, default: Date.now}  //Automatically uses current date when user submits posts
+    "created": {type: String, default: moment().format('l')} //Date.now}  //Automatically uses current date when user submits posts
 });
 
 var Blog = mongoose.model("Blog", blogSchema);
@@ -37,7 +38,7 @@ app.get("/blogs", function(req, res){
     
 // NEW
 app.get("/blogs/new", function(req, res){
-   res.render("new"); 
+  res.render("new"); 
 });
 
 // CREATE
@@ -62,7 +63,9 @@ app.get("/blogs/:id", function(req, res){
         }
     });
 });
-    
+
+//EDIT
+
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log('server has started');
 });
