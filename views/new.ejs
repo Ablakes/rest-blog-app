@@ -1,0 +1,23 @@
+<% include ./partials/header %>
+<!-- info about the / in front: https://www.udemy.com/the-web-developer-bootcamp/learn/v4/questions/1993604-->
+
+<div class="ui main text container segment">
+    <h1 class="ui huge header">New Blog</h1>
+    <form class="ui form" action="/blogs" method="POST">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="blog[title]" placeholder="Title">
+        </div>
+        <div class="field">
+            <label>Image URL</label>
+            <input type="text" name="blog[image]" placeholder="Image URL">
+        </div>
+        <div class="field">
+            <label>Content</label>
+            <textarea name="blog[body]" placeholder="Content"></textarea>
+        </div>
+        <button class="ui primary button" type="submit">Submit</button>
+    </form>
+</div>
+
+<% include ./partials/footer %>
