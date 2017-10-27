@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+<!-- info about the / in front: https://www.udemy.com/the-web-developer-bootcamp/learn/v4/questions/1993604-->
+
+<div class="ui main text container segment">
+    <h1 class="ui huge header">Edit Blog</h1>
+                                               <!--This VVV is how we are able to use a PUT request with method-override-->
+                                               <!--"_method" is set in the app.use line in app.js-->
+    <form class="ui form" action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="blog[title]" value="<%= blog.title %>">
+        </div>
+        <div class="field">
+            <label>Image URL</label>
+            <input type="text" name="blog[image]" value="<%= blog.image %>">
+        </div>
+        <div class="field">
+            <label>Content</label>
+            <textarea name="blog[body]"><%= blog.body %></textarea>
+        </div>
+        <button class="ui primary button" type="submit">Submit</button>
+    </form>
+</div>
+
+<% include ./partials/footer %>
