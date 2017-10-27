@@ -1,13 +1,15 @@
-var express        = require("express"),
-    app            = express(),
-    mongoose       = require("mongoose"),
-    bodyParser     = require("body-parser"),
-    moment         = require('moment'),
-    methodOverride = require("method-override");
+var express          = require("express"),
+    app              = express(),
+    mongoose         = require("mongoose"),
+    bodyParser       = require("body-parser"),
+    moment           = require('moment'),
+    methodOverride   = require("method-override"),
+    expressSanitizer = require("express-sanitizer");
 
 mongoose.connect("mongodb://localhost/restful_blog_app", {useMongoClient: true});  //This creates that db if there isn't one already named that
 app.use(express.static("public")); //Allows us to use stylesheet from "public" directory
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(expressSanitizer());  //This has to be listed after app.use(bodyParser)
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
@@ -46,6 +48,7 @@ app.get("/blogs/new", function(req, res){
 
 // CREATE
 app.post("/blogs", function(req, res){
+    req.body.blog.body = req.sanitize(req.body.blog.body); //because blog.body is the only place with the <%- tag, so it's the only place a user can enter code that will run.
     Blog.create(req.body.blog, function(err, newBlog){
         if(err){
             res.render("new");
@@ -79,6 +82,7 @@ app.get("/blogs/:id/edit", function(req, res){
 
 //UPDATE
 app.put("/blogs/:id", function(req, res){
+    req.body.blog.body = req.sanitize(req.body.blog.body);
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
         if(err){
             res.redirect("/blogs");
@@ -95,7 +99,6 @@ app.delete("/blogs/:id", function(req, res){
             console.log(err)
         }else{
             res.redirect("/blogs");
-            
         }
     });
 });

@@ -15,10 +15,8 @@
     </div>
     <a href="/blogs"><button class="ui primary button">Back</button></a>
     <a href="/blogs/<%= blog._id %>/edit"><button class="ui red button">Edit</button></a>
-    <form class="ui form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
-        <div class="field">
-            <button class="ui red button">Delete</button></a>        
-        </div>
+    <form class="ui form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="float:right">
+        <button class="ui red basic button">Delete</button></a>        
     </form>
     
 </div>
